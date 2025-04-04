@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region properties
     public float speed = 5f;
     public KeyCode actionKey = KeyCode.Space;
     public float actionDuration = 1.0f;
@@ -12,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck; // Position to check for the ground
     public float groundCheckRadius = 0.2f; // Radius of the ground check
     public LayerMask groundLayer; // Layer that represents the ground
+
+    [Header("Foot Kicks")]
+    public float footCheckRadius = 0.5f; // Radius of the foot check
+    public LayerMask ballLayer; // Layer that represents the ball
 
     [Header("Colliders and Transform")]
     public Transform ballTarget;
@@ -24,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    #endregion
 
     void Start()
     {
@@ -54,11 +60,11 @@ public class PlayerController : MonoBehaviour
         Collider2D activeCollider = null;
         // Determine appropriate collider based on ball position
         bool ballIsAbove = ballTarget.position.y > transform.position.y;
-        if(ballIsAbove)
+        if (ballIsAbove)
         {
             //Debug.Log($"ball is Above");
             activeCollider = headCollider;
-             // Jump if grounded
+            // Jump if grounded
             if (isGrounded)
             {
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -87,7 +93,8 @@ public class PlayerController : MonoBehaviour
     void Kick(Vector2 footPosition, Vector2 direction)
     {
         //Debug.Log($"Kick check foot={footPosition.x},{footPosition.y}, dir={direction.x},{direction.y}");
-        Collider2D ball = Physics2D.OverlapCircle(footPosition, 0.5f);
+        Collider2D ball = Physics2D.OverlapCircle(footPosition, footCheckRadius, ballLayer);
+
         if (ball && ball.CompareTag("Ball"))
         {
             //Debug.Log($"Kick ball");
@@ -105,45 +112,52 @@ public class PlayerController : MonoBehaviour
         //Debug.Log($"OnCollisionEnter2D with {collision.GetType()} - name {collision.gameObject.name}");
         if (collision.gameObject.CompareTag("Ball"))
         {
+            //Debug.Log($"OnCollisionEnter2D this is the Ball with {collision.GetType()} - name {collision.gameObject.name}");
             BallController ball = ballTarget.GetComponent<BallController>();
             // Bounce up if above head
             if (ball && collision.transform.position.y > head.position.y)
             {
-                //Debug.Log("Bounce up");
+                //Debug.Log("OnCollisionEnter2D Bounce up");
                 ball.BounceUp();
             }
             else
-            {   // kick left or right
-                if(leftFootCollider.enabled)
+            {
+                // Debug.Log($"OnCollisionEnter2D kick left or right with {collision.GetType()} - name {collision.gameObject.name}");
+                // kick left or right
+                if (leftFootCollider.enabled)
                 {
-                    //Debug.Log("Collider ball left");
-                    Collider2D ballNearLeft = Physics2D.OverlapCircle(leftFoot.position, 0.5f);
-                    if (ballNearLeft && ballNearLeft.CompareTag("Ball"))
-                    {
-                        //Debug.Log("Kick left");
-                        Kick(leftFoot.position, new Vector2(-0.7f, 1f));
-                    }
+                    //Debug.Log("Kick left");
+                    float angle = UnityEngine.Random.Range(-90f, -70f);
+                    Vector2 direction = DegreeToVector2(angle);
+                    Kick(leftFoot.position, direction);
                 }
-                else if(rightFootCollider.enabled)
+                else if (rightFootCollider.enabled)
                 {
-                    Collider2D ballNearRight = Physics2D.OverlapCircle(rightFoot.position, 0.5f);
-                    if (ballNearRight && ballNearRight.CompareTag("Ball"))
-                    {
-                        //Debug.Log("Kick right");
-                        Kick(rightFoot.position, new Vector2(0.7f, 1f));
-                    }
+                    //Debug.Log("Kick right");
+                    float angle = UnityEngine.Random.Range(70f, 90f);
+                    Vector2 direction = DegreeToVector2(angle);
+                    Kick(rightFoot.position, direction);
                 }
+                // else
+                // {
+                //     Debug.Log("NO FOOT COLLIDER ENABLED");
+                // }
             }
+        }
+
+        Vector2 DegreeToVector2(float angleInDegrees)
+        {
+            float rad = angleInDegrees * Mathf.Deg2Rad;
+            return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
         }
     }
 
     void OnDrawGizmosSelected()
     {
-        // Draw a circle in the editor to visualize the ground check area
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(ballTarget.position, footCheckRadius);
+        Gizmos.DrawWireSphere(leftFoot.position, footCheckRadius);
+        Gizmos.DrawWireSphere(rightFoot.position, footCheckRadius);
     }
 }
