@@ -2,11 +2,15 @@ California Games was one of the games I played and love.
 This POC is a remake for the "Foot Bag" mini game from "California Games".
 The POC was handling with unity "Coroutine" to activate colliders based on the ball location.
 
+**NOTE:** This POC does not implement all games tricks yet. Only on head bounce a kicks are working
+
 # California games
+
 California Games is a sports video game released by Epyx for the Apple II and Commodore 64 in 1987. Branching from their Summer Games and Winter Games series, this game is a collection of outdoor sports purportedly popular in California. It ported to other home computers and video game consoles and was the pack-in game for the Atari Lynx when that system launched in 1989. The game was successful and spawned a sequel, California Games II.
 (Source: https://en.wikipedia.org/wiki/California_Games)
 
 # Foot Bag
+
 The Foot bag is like "haki-sack" Where you must keep the Bag in the air using you body and scoring points while doing it. Dropping the bag is allowed but will
 waste time.
 Use the action button to kick/Interact with the bag or jump in the air. The left and right buttons move the character left and right.
@@ -34,25 +38,6 @@ Use the action button to kick/Interact with the bag or jump in the air. The left
 **Hit the gull  -** Head the bag so that it hits a seagull flying above.
 
 ## Points
-Here is the information converted into a Markdown table:
-
-| Move Name | Points |
-|-----------|--------|
-| Each Touch | 10     |
-| Five In A Row | 750  |
-| Half Axle | 250    |
-| Full Axle | 500    |
-| Axle Foley | 750    |
-| Horshoe | 500     |
-| Double Arch | 2500  |
-| Doda | 5000      |
-| Reverse Doda | 5000 |
-| Jester | 2000     |
-| Dizzy Dean | 1500  |
-| Head Banger | 1500 |
-| Squinty O Toole | 7500 |
-| Nice Catch | 1500  |
-| Seagull Bash | 1000 |
 
 If you want to include the additional descriptions for "Nice Catch" and "Seagull Bash," you can modify the table like this:
 
@@ -79,8 +64,6 @@ If you want to include the additional descriptions for "Nice Catch" and "Seagull
 For every type of trick performed, an end of run bonus will be added together to reward your diversity.  The following are the total bonus amounts received for the number of different tricks performed.
 *NOTE: Squinty O Toole does not qualify as a countable trick for Bonuses.*
 
-Here is the information converted into a Markdown table:
-
 | Number of Tricks | Points |
 |------------------|--------|
 | One Trick        | 1000   |
@@ -96,6 +79,7 @@ Here is the information converted into a Markdown table:
 | Eleven Tricks    | 99000  |
 
 ### Strategies
+
 - Try to only perform the low scoring tricks once per attempt, as it will  only be needed for the valuable Bonus Points they help accumulate.
 
 - Try to have a set routine for your Foot Bagger to follow, which maximizes  the amount of tricks and minimizes the amount of time with the hackey sack  on the ground.  The only time the hackey sack should touch down onto the ground is to use a Jester (putting it there), followed by performing a  Horseshoe, taking out two tricks for one time the hackey sack is on the

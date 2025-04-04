@@ -4,8 +4,8 @@ public class BallController : MonoBehaviour
 {
     public float bounceForce = 10f;
     public float kickForce = 12f;
+    public GameManager gameManager;
     private Rigidbody2D rb;
-
     private int kickCount = 0;
     private AudioSource audioSource;
 
@@ -18,16 +18,16 @@ public class BallController : MonoBehaviour
     public void BounceUp()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
-        AddKickCount();
+        AddKickCount("Bounce", 20);
     }
 
     public void Kick(Vector2 direction)
     {
         rb.linearVelocity = direction * kickForce;
-        AddKickCount();
+        AddKickCount("Kick", 10);
     }
 
-    private void AddKickCount()
+    private void AddKickCount(string trick, int score)
     {
         if(audioSource != null)
         {
@@ -36,6 +36,7 @@ public class BallController : MonoBehaviour
         // Increment the kick count
         kickCount++;
         //Debug.Log($"Ball kicked {kickCount} times");
+        gameManager.UpdateTrickText(trick, score);
     }
 
     public void ResetKickCount()
