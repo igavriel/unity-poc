@@ -54,15 +54,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc34c7146a3d46e49f2cbe4b86c62d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionKey: 32
+  actionDuration: 0.5
+  walkSpeed: 5
+  animator: {fileID: 1719588945350144545}
   jumpForce: 8
-  groundCheck: {fileID: 1134053127651349505}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  speed: 5
-  actionKey: 32
-  actionDuration: 0.5
+  groundCheckTarget: {fileID: 1134053127651349505}
+  footCheckRadius: 0.5
+  ballLayer:
+    serializedVersion: 2
+    m_Bits: 0
   ballTarget: {fileID: 0}
   head: {fileID: 8825217732292982008}
   leftFoot: {fileID: 1241339982625486194}
@@ -232,7 +237,7 @@ GameObject:
   - component: {fileID: 1134053127651349505}
   - component: {fileID: 4920493599863818501}
   m_Layer: 0
-  m_Name: GroundCheck
+  m_Name: Ground Hidden Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,8 +586,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4202405798562748568}
   - component: {fileID: 5990216781951335218}
+  - component: {fileID: 1719588945350144545}
   m_Layer: 0
-  m_Name: player-front_0
+  m_Name: Player Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,3 +664,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1719588945350144545
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8681327967693650066}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 259a1f4f6242447af84e1cb726fac3bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

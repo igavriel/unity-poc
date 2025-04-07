@@ -3,30 +3,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    #region properties
-    public float speed = 5f;
+    #region public properties
     public KeyCode actionKey = KeyCode.Space;
     public float actionDuration = 1.0f;
+    public float walkSpeed = 5.0f;
+    public Animator animator; // Animator component for player animations
 
     [Header("Jump")]
     public float jumpForce = 20f; // Force applied when jumping
-    public Transform groundCheck; // Position to check for the ground
     public float groundCheckRadius = 0.2f; // Radius of the ground check
     public LayerMask groundLayer; // Layer that represents the ground
+    public Transform groundCheckTarget; // Position to check for the ground
 
-    [Header("Foot Kicks")]
+    [Header("Ball")]
     public float footCheckRadius = 0.5f; // Radius of the foot check
     public LayerMask ballLayer; // Layer that represents the ball
-
-    [Header("Colliders and Transform")]
     public Transform ballTarget;
+
+    [Header("Colliders and Transform - Player Internal")]
     public Transform head;
     public Transform leftFoot;
     public Transform rightFoot;
     public Collider2D headCollider;
     public Collider2D leftFootCollider;
     public Collider2D rightFootCollider;
+    #endregion
 
+    #region private properties
     private Rigidbody2D rb;
     private bool isGrounded;
     #endregion
@@ -42,10 +45,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(moveX * speed, rb.linearVelocity.y);
+        // Update animator parameters
+        animator.SetFloat("Speed", Mathf.Abs(moveX));
+
+        rb.linearVelocity = new Vector2(moveX * walkSpeed, rb.linearVelocity.y);
 
         // Check if the player is grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCircle(groundCheckTarget.position, groundCheckRadius, groundLayer);
 
         // Handle Kick if action pressed
         bool actionPressed = Input.GetKey(actionKey);
@@ -155,7 +161,7 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(groundCheckTarget.position, groundCheckRadius);
         Gizmos.DrawWireSphere(ballTarget.position, footCheckRadius);
         Gizmos.DrawWireSphere(leftFoot.position, footCheckRadius);
         Gizmos.DrawWireSphere(rightFoot.position, footCheckRadius);
