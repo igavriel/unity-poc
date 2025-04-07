@@ -15,16 +15,16 @@ public class BallController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void BounceUp()
+    public void BounceUp(string trick)
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
-        AddKickCount("Bounce", 20);
+        AddKickCount(trick, 20);
     }
 
-    public void Kick(Vector2 direction)
+    public void Kick(Vector2 direction, string trick)
     {
         rb.linearVelocity = direction * kickForce;
-        AddKickCount("Kick", 10);
+        AddKickCount(trick, 10);
     }
 
     private void AddKickCount(string trick, int score)

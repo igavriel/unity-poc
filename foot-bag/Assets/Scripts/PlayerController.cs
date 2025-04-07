@@ -84,11 +84,15 @@ public class PlayerController : MonoBehaviour
             {
                 //Debug.Log($"Left Kick");
                 activeCollider = leftFootCollider;
+                rightFootCollider.enabled = false;
+                animator.SetTrigger("KickLeft");
             }
             else
             {
                 //Debug.Log($"Right Kick");
                 activeCollider = rightFootCollider;
+                leftFootCollider.enabled = false;
+                animator.SetTrigger("KickRight");
             }
         }
         activeCollider.enabled = true;
@@ -96,7 +100,7 @@ public class PlayerController : MonoBehaviour
         activeCollider.enabled = false;
     }
 
-    void Kick(Vector2 footPosition, Vector2 direction)
+    void Kick(Vector2 footPosition, Vector2 direction, string trick)
     {
         //Debug.Log($"Kick check foot={footPosition.x},{footPosition.y}, dir={direction.x},{direction.y}");
         Collider2D ball = Physics2D.OverlapCircle(footPosition, footCheckRadius, ballLayer);
@@ -108,7 +112,7 @@ public class PlayerController : MonoBehaviour
             if (ballController)
             {
                 //Debug.Log($"Kick direction {direction.x}, {direction.y}");
-                ballController.Kick(direction);
+                ballController.Kick(direction, trick);
             }
         }
     }
@@ -124,7 +128,7 @@ public class PlayerController : MonoBehaviour
             if (ball && collision.transform.position.y > head.position.y)
             {
                 //Debug.Log("OnCollisionEnter2D Bounce up");
-                ball.BounceUp();
+                ball.BounceUp("Bounce");
             }
             else
             {
@@ -135,14 +139,14 @@ public class PlayerController : MonoBehaviour
                     //Debug.Log("Kick left");
                     float angle = UnityEngine.Random.Range(-90f, -70f);
                     Vector2 direction = DegreeToVector2(angle);
-                    Kick(leftFoot.position, direction);
+                    Kick(leftFoot.position, direction, $"Left Kick");
                 }
                 else if (rightFootCollider.enabled)
                 {
                     //Debug.Log("Kick right");
                     float angle = UnityEngine.Random.Range(70f, 90f);
                     Vector2 direction = DegreeToVector2(angle);
-                    Kick(rightFoot.position, direction);
+                    Kick(rightFoot.position, direction, $"Right Kick");
                 }
                 // else
                 // {
