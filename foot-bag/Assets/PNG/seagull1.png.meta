@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      seagull1_0: -1102728403342163911
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

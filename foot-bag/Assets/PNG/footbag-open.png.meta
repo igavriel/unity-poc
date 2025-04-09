@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      footbag-open_0: -2403905018094215414
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

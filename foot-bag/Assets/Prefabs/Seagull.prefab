@@ -119,6 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7022480399001030689}
+  - component: {fileID: 3069931875858746656}
   - component: {fileID: 3667778408881873142}
   m_Layer: 0
   m_Name: Seagull
@@ -143,6 +144,21 @@ Transform:
   - {fileID: 4260010451475948934}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3069931875858746656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091591650545548489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e2484c65abd54ad6b9fd30902eb0cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  amplitude: 1
+  frequency: 1
 --- !u!70 &3667778408881873142
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
