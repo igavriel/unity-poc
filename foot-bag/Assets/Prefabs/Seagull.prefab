@@ -159,6 +159,7 @@ MonoBehaviour:
   speed: 5
   amplitude: 1
   frequency: 1
+  edgeCollider: {fileID: 0}
 --- !u!70 &3667778408881873142
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -189,7 +190,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

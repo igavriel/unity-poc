@@ -49,7 +49,7 @@ public class BallController : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the ball collides with the ground
-        Debug.Log($"Ball collided with {collision.collider.name}");
+        //Debug.Log($"Ball collided with {collision.collider.name}");
         if (collision.collider.name == "Ground")
         {
             ResetKickCount();
