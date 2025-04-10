@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     private System.Collections.IEnumerator HandleLastTrick(string trick, int score)
     {
         // Update the score and trick
-        currentScoreText.SetText(score.ToString());
+        currentScoreText.SetText($"+{score}");
         trickText.SetText(trick);
         yield return new WaitForSeconds(1.0f);
         // Clear the trick and score text

@@ -12,11 +12,15 @@ public class SeagullFlight : MonoBehaviour
 
     // Starting position
     private Vector3 startPosition;
+    private AudioSource audioSource;
 
     void Start()
     {
         // Save the starting position of the sprite
         startPosition = transform.position;
+        // Get the AudioSource component
+        audioSource = GetComponent<AudioSource>();
+        audioSource.Play();
     }
 
     void Update()
@@ -49,11 +53,15 @@ public class SeagullFlight : MonoBehaviour
 
     private System.Collections.IEnumerator HandleResetToRightPosition()
     {
+        audioSource.Stop();
         int wait = UnityEngine.Random.Range(5, 10); //1,2);
         Debug.Log($"Next seagull in {wait} seconds");
 
         yield return new WaitForSeconds(wait);
+
         // Resetting to right position
         transform.position = startPosition;
+        // Restart the audio
+        audioSource.Play();
     }
 }
