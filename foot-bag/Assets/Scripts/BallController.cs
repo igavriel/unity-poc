@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class BallController : MonoBehaviour
 {
@@ -22,10 +23,10 @@ public class BallController : MonoBehaviour
         AddKickCount(trick, 20);
     }
 
-    public void Kick(Vector2 direction, string trick)
+    public void Kick(Vector2 direction, string trick, int score = 10)
     {
         rb.linearVelocity = direction * kickForce;
-        AddKickCount(trick, 10);
+        AddKickCount(trick, score);
     }
 
     private void AddKickCount(string trick, int score)

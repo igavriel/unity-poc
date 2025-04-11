@@ -47,18 +47,18 @@ public class SeagullFlight : MonoBehaviour
         transform.position = new Vector3(horizontalPosition, startPosition.y + verticalOffset, startPosition.z);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         //Debug.Log($"OnTriggerEnter2D Collision detected with: {collision.name}");
         // Check if the object collided with the specific target collider
-        if (collision == edgeCollider)
+        if (collider == edgeCollider)
         {
             StartCoroutine(HandleResetToRightPosition());
         }
-        else if (collision == ballCollider)
+        else if (collider == ballCollider)
         {
             // Handle collision with the ball
-            StartCoroutine(HandleCollisionWithBall(collision.transform));
+            StartCoroutine(HandleCollisionWithBall(collider));
         }
     }
 
@@ -76,16 +76,20 @@ public class SeagullFlight : MonoBehaviour
         audioSource.PlayOneShot(tweetSound);
     }
 
-    private System.Collections.IEnumerator HandleCollisionWithBall(Transform hitPosition)
+    private System.Collections.IEnumerator HandleCollisionWithBall(Collider2D collider)
     {
         audioSource.PlayOneShot(hitSound);
         // Calculate hit direction and apply forces
+        Transform hitPosition = collider.transform;
         Vector2 hitDirection = (transform.position - hitPosition.transform.position).normalized;
 
         // Add spin based on hit angle (cross product for torque)
         float spinDirection = Vector2.Dot(hitDirection, Vector2.up) > 0 ? -1f : 1f;
         rb.AddTorque(spinDirection * rotationTorqueMultiplier, ForceMode2D.Impulse);
         rb.AddForce(hitDirection * upwardForce + Vector2.up * upwardForce, ForceMode2D.Impulse);
+
+        BallController ball = collider.GetComponent<BallController>();
+        ball.Kick(hitDirection, "Seagull Hit", 100);
 
         // Optionally destroy the seagull after a short delay
         yield return new WaitForSeconds(destroyTime);
