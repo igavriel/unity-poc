@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text currentScoreText;
     [SerializeField] private TMP_Text timerText;
+    [SerializeField] private TMP_Text gameOverText;
+    [SerializeField] private GameObject player;
     [SerializeField] private float timeRemaining = 90f;
 
     private bool isGameActive = false;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
         // Initialize the game state
         score = 0;
         isGameActive = true;
-        timeRemaining = 90f; // Set the initial time
+        player.SetActive(true);
         UpdateCounterDisplay();
     }
 
@@ -79,7 +81,10 @@ public class GameManager : MonoBehaviour
     private System.Collections.IEnumerator HandleGameOver()
     {
         isGameActive = false;
-        yield return new WaitForSeconds(2f);
+        gameOverText.enabled = true;
+        player.SetActive(false);
+        yield return new WaitForSeconds(5f);
+        gameOverText.enabled = false;
         SceneManager.LoadScene("1.Openning"); // Load your game over scene
     }
 }

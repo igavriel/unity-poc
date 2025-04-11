@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class SeagullFlight : MonoBehaviour
@@ -93,6 +92,7 @@ public class SeagullFlight : MonoBehaviour
 
         // Optionally destroy the seagull after a short delay
         yield return new WaitForSeconds(destroyTime);
+        audioSource.Stop();
 
         // Reset the seagull's position and state
         rb.AddTorque(0, ForceMode2D.Impulse); // Stop the spin
