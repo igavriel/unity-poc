@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public float bounceForce = 10f;
-    public float kickForce = 12f;
-    public GameManager gameManager;
+    [SerializeField] private float bounceForce = 10f;
+    [SerializeField] private float kickForce = 12f;
+    [SerializeField] private GameManager gameManager;
+
     private Rigidbody2D rb;
     private int kickCount = 0;
     private AudioSource audioSource;

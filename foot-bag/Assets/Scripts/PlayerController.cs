@@ -4,29 +4,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region public properties
-    public KeyCode actionKey = KeyCode.Space;
-    public float actionDuration = 1.0f;
-    public float walkSpeed = 5.0f;
-    public Animator animator; // Animator component for player animations
+    [SerializeField] private KeyCode actionKey = KeyCode.Space;
+    [SerializeField] private float actionDuration = 1.0f;
+    [SerializeField] private float walkSpeed = 5.0f;
+    [SerializeField] private Animator animator; // Animator component for player animations
 
     [Header("Jump")]
-    public float jumpForce = 20f; // Force applied when jumping
-    public float groundCheckRadius = 0.2f; // Radius of the ground check
-    public LayerMask groundLayer; // Layer that represents the ground
-    public Transform groundCheckTarget; // Position to check for the ground
+    [SerializeField] private float jumpForce = 20f; // Force applied when jumping
+    [SerializeField] private float groundCheckRadius = 0.2f; // Radius of the ground check
+    [SerializeField] private LayerMask groundLayer; // Layer that represents the ground
+    [SerializeField] private Transform groundCheckTarget; // Position to check for the ground
 
     [Header("Ball")]
-    public float footCheckRadius = 0.5f; // Radius of the foot check
-    public LayerMask ballLayer; // Layer that represents the ball
-    public Transform ballTarget;
+    [SerializeField] private float footCheckRadius = 0.5f; // Radius of the foot check
+    [SerializeField] private LayerMask ballLayer; // Layer that represents the ball
+    [SerializeField] private Transform ballTarget;
 
     [Header("Colliders and Transform - Player Internal")]
-    public Transform head;
-    public Transform leftFoot;
-    public Transform rightFoot;
-    public Collider2D headCollider;
-    public Collider2D leftFootCollider;
-    public Collider2D rightFootCollider;
+    [SerializeField] private Transform head;
+    [SerializeField] private Transform leftFoot;
+    [SerializeField] private Transform rightFoot;
+    [SerializeField] private Collider2D headCollider;
+    [SerializeField] private Collider2D leftFootCollider;
+    [SerializeField] private Collider2D rightFootCollider;
     #endregion
 
     #region private properties

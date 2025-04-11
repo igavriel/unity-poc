@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public Canvas canvas;
-    public TMP_Text trickText;
-    public TMP_Text scoreText;
-    public TMP_Text currentScoreText;
-    public TMP_Text timerText;
-    public float timeRemaining = 90f;
+    [SerializeField] private TMP_Text trickText;
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text currentScoreText;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private float timeRemaining = 90f;
+
     private bool isGameActive = false;
     private int score = 0;
     private int highScore = 0;
@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     {
         // Initialize the game state
         score = 0;
-        canvas.enabled = true;
         isGameActive = true;
         timeRemaining = 90f; // Set the initial time
         UpdateCounterDisplay();
@@ -81,7 +80,6 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
         yield return new WaitForSeconds(2f);
-        canvas.enabled = false;
         SceneManager.LoadScene("1.Openning"); // Load your game over scene
     }
 }
