@@ -4854,7 +4854,7 @@ GameObject:
   - component: {fileID: 4434441230605322747}
   - component: {fileID: 710782812950905453}
   m_Layer: 0
-  m_Name: waterball
+  m_Name: water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
