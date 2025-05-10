@@ -17,7 +17,7 @@ public class FlameCollect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerLight pl = other.GetComponent<PlayerLight>();
-            Coroutine triggerRoutine = StartCoroutine(DestroyCoroutine(pl));
+            StartCoroutine(DestroyCoroutine(pl));
         }
     }
 

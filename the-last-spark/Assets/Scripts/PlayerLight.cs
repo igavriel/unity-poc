@@ -9,8 +9,9 @@ public class PlayerLight : MonoBehaviour
     [SerializeField]
     private int hitCount = 0; // Number of water hits taken
 
+    public float maxRadius = 20.0f;
+
     private Light2D lanternLight;
-    private float maxRadius = 8f;
 
     void Start()
     {

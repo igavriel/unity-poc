@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WaterEnemy : MonoBehaviour
@@ -5,13 +6,18 @@ public class WaterEnemy : MonoBehaviour
     public Transform player;
     public float speed = 1.0f;
     public float avoidDistance = 3.0f;
+    public float enemyDecreaseAmount = 1.0f;
+
     private Vector2 currentDirection;
+    private AudioSource audioSource;
 
     void Start()
     {
         // Find the player if not assigned
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        audioSource = GetComponent<AudioSource>();
 
         currentDirection = Random.insideUnitCircle.normalized;
     }
@@ -50,26 +56,27 @@ public class WaterEnemy : MonoBehaviour
                 currentDirection = Random.insideUnitCircle.normalized; // Fallback
             }
         }
+        else if (collision.collider.CompareTag("Player"))
+        {
+            PlayerLight pl = collision.collider.GetComponent<PlayerLight>();
+            StartCoroutine(DestroyCoroutine(pl));
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private IEnumerator DestroyCoroutine(PlayerLight playerLight)
     {
-        if (other.CompareTag("Player"))
+        playerLight.DecreaseLight(enemyDecreaseAmount); // Adjust damage value as needed
+        if (playerLight.GetCurrentLightRadius() <= 0f)
         {
-            PlayerLight playerLight = other.GetComponent<PlayerLight>();
-            if (playerLight != null)
-            {
-                playerLight.DecreaseLight(1.0f); // Adjust damage value as needed
-                if (playerLight.GetCurrentLightRadius() <= 0f)
-                {
-                    // Game over logic here
-                    Debug.Log("Game Over: Light extinguished.");
-                }
-            }
-
-            Destroy(gameObject);
-
-            GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
+            // Game over logic here
+            Debug.Log("Game Over: Light extinguished.");
         }
+        audioSource.Play();
+        gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(audioSource.clip.length);
+        Destroy(gameObject);
+
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
     }
 }
