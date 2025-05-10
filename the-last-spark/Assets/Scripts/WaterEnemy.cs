@@ -3,19 +3,30 @@ using UnityEngine;
 
 public class WaterEnemy : MonoBehaviour
 {
-    public Transform player;
-    public float speed = 1.0f;
-    public float avoidDistance = 3.0f;
-    public float enemyDecreaseAmount = 1.0f;
+    public float enemyDecreaseAmount = 1.5f;
 
+    private float avoidDistance = 3.0f;
+    private float normalSpeed = 1.0f;
+    private float chaseSpeed = 1.5f;
+    private Transform player;
     private Vector2 currentDirection;
     private AudioSource audioSource;
+    private PlayerLight playerLight;
 
     void Start()
     {
         // Find the player if not assigned
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        playerLight = player.GetComponent<PlayerLight>();
+        avoidDistance = playerLight.GetCurrentLightRadius() - 0.5f;
+        if (avoidDistance < 0)
+            avoidDistance = 0;
+
+        PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+        normalSpeed = playerMovement.GetSpeed() + Random.Range(-0.5f, 0.5f);
+        chaseSpeed = playerMovement.GetSpeed() + Random.Range(0.1f, 1.0f);
 
         audioSource = GetComponent<AudioSource>();
 
@@ -33,12 +44,12 @@ public class WaterEnemy : MonoBehaviour
         {
             // Chase the player
             Vector2 dir = (player.position - transform.position).normalized;
-            transform.position += (Vector3)(dir * speed * Time.deltaTime);
+            transform.position += (Vector3)(dir * chaseSpeed * Time.deltaTime);
         }
         else
         {
             // Move in a straight line
-            transform.position += (Vector3)(currentDirection * speed * Time.deltaTime);
+            transform.position += (Vector3)(currentDirection * normalSpeed * Time.deltaTime);
         }
     }
 
@@ -58,12 +69,11 @@ public class WaterEnemy : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Player"))
         {
-            PlayerLight playerLight = collision.collider.GetComponent<PlayerLight>();
-            StartCoroutine(HandleEnemyDestroy(playerLight));
+            StartCoroutine(HandleEnemyDestroy());
         }
     }
 
-    private IEnumerator HandleEnemyDestroy(PlayerLight playerLight)
+    private IEnumerator HandleEnemyDestroy()
     {
         audioSource.Play();
         playerLight.DecreaseLight(enemyDecreaseAmount); // Adjust damage value as needed
@@ -75,7 +85,11 @@ public class WaterEnemy : MonoBehaviour
         }
         else
         {
+            // stop collision with player
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            // hide sprite
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+
             yield return new WaitForSeconds(audioSource.clip.length / 2);
             GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
             Destroy(gameObject);

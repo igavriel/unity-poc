@@ -5001,10 +5001,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 212ab7147875b492d95369ad735f87a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  speed: 1
   avoidDistance: 3
-  enemyDecreaseAmount: 1
+  enemyDecreaseAmount: 1.5
 --- !u!50 &1864136919416697662
 Rigidbody2D:
   serializedVersion: 5
