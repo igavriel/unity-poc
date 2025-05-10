@@ -21,8 +21,9 @@ public class WaterEnemy : MonoBehaviour
 
         playerLight = player.GetComponent<PlayerLight>();
         avoidDistance = playerLight.GetCurrentLightRadius() - 0.5f;
-        if (avoidDistance < 0)
-            avoidDistance = 0;
+        // Ensure avoidDistance is not too small
+        if (avoidDistance < 5.0f)
+            avoidDistance = 5.0f;
 
         PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
         normalSpeed = playerMovement.GetSpeed() + Random.Range(-0.5f, 0.5f);
