@@ -1,6 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,14 +25,20 @@ public class GameManager : MonoBehaviour
     public int enemyCount = 5;
 
     [Header("Game Timer")]
-    public float gameDuration = 120f; // 2 minutes
-    private float timer;
+    [SerializeField] private float gameDuration = 120f; // 2 minutes
+
+    [SerializeField] private float timeRemaining;
+
+    [SerializeField] private GameObject player;
+    private PlayerLight playerLight;
 
     [Header("UI")]
-    public Text timerText;
-    public GameObject gameOverPanel;
+    public TMP_Text timerText;
+    public TMP_Text hitText;
+    public TMP_Text flameText;
+    public TMP_Text promptText;
 
-    private int currentScore = 0;
+    private bool isGameActive = false;
 
     void Awake()
     {
@@ -43,7 +50,19 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        timer = gameDuration;
+        isGameActive = true;
+        promptText.enabled = false;
+        timeRemaining = gameDuration;
+
+        // Find the player if not assigned
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
+
+        player.GetComponentInChildren<SpriteRenderer>().enabled = true;
+        playerLight = player.GetComponent<PlayerLight>();
+        playerLight.NewGame();
+
+        UpdateCounterDisplay();
         CreateWorldBorders();
         SpawnObjects(stonesPrefab, stonesCount, stonesContainer);
         SpawnObjects(flamePrefab, flameCount, flamesContainer);
@@ -52,18 +71,34 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        // update time only if not game over and not paused
+        if (isGameActive)
         {
-            GameOver("Time's up!");
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining >= 0f)
+            {
+                UpdateCounterDisplay();
+                UpdateScoreDisplay();
+            }
+            else
+            {
+                GameOver("Time's up!");
+            }
         }
+    }
 
-        if (timerText != null)
-            timerText.text = "Time: " + Mathf.CeilToInt(timer).ToString();
+    void UpdateCounterDisplay()
+    {
+        int seconds = Mathf.FloorToInt(timeRemaining);
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+        timerText.text = $"Time Left: {minutes:D2}:{seconds:D2}";
     }
 
     void SpawnObjects(GameObject prefab, int amount, Transform parent)
     {
+        Debug.Log($"Spawning {amount} objects of type {prefab.name}.");
+
         for (int i = 0; i < amount; i++)
         {
             Vector2 spawnPos = new Vector2(
@@ -72,7 +107,13 @@ public class GameManager : MonoBehaviour
             );
             GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
             obj.transform.SetParent(parent);
+            Debug.Log($"Spawned {prefab.name} at {spawnPos}");
         }
+    }
+
+    public void SpawnEnemy()
+    {
+        SpawnObjects(enemyPrefab, 1, enemiesContainer);
     }
 
     void CreateWorldBorders()
@@ -118,29 +159,45 @@ public class GameManager : MonoBehaviour
         collider.isTrigger = false;
     }
 
-    public void SpawnEnemy()
+    public void UpdateScoreDisplay()
     {
-        SpawnObjects(enemyPrefab, 1, enemiesContainer);
-    }
-
-    public void AddScore(int amount)
-    {
-        currentScore += amount;
-        Debug.Log("Score: " + currentScore);
+        int flames = playerLight.GetFlameCount();
+        int hits = playerLight.GetHitCount();
+        flameText.text = $"Flames: {flames}/{flameCount}";
+        hitText.text = $"Hits: {hits}";
 
         // Optional: Check win condition here (e.g., score == flameCount)
-        if (currentScore >= flameCount)
+        if (flames >= flameCount)
         {
-            GameOver("You ignited all the flames!");
+            PromptText("You ignited all the flames!", 3f);
+            isGameActive = false;
         }
+    }
+
+    public void PromptText(string text, float duration)
+    {
+        StartCoroutine(HandlePrompt(text, duration));
+    }
+
+    private IEnumerator HandlePrompt(string text, float duration)
+    {
+        Debug.Log(text);
+        promptText.enabled = true;
+        promptText.text = text;
+        yield return new WaitForSeconds(duration);
+        promptText.enabled = false;
     }
 
     public void GameOver(string reason)
     {
-        Debug.Log("Game Over: " + reason);
-        Time.timeScale = 0f;
+        StartCoroutine(HandleGameOver("Game Over: " + reason));
+    }
 
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
+    private IEnumerator HandleGameOver(string text)
+    {
+        PromptText(text, 5f);
+        player.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("1.Opening"); // Load your game over scene
     }
 }

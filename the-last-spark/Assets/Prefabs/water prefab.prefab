@@ -4982,7 +4982,7 @@ Transform:
   m_GameObject: {fileID: 9154303056386858635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.811, y: 0.248, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5004,6 +5004,7 @@ MonoBehaviour:
   player: {fileID: 0}
   speed: 1
   avoidDistance: 3
+  enemyDecreaseAmount: 1
 --- !u!50 &1864136919416697662
 Rigidbody2D:
   serializedVersion: 5

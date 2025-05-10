@@ -85,6 +85,6 @@ public class GameManager : MonoBehaviour
         player.SetActive(false);
         yield return new WaitForSeconds(5f);
         gameOverText.enabled = false;
-        SceneManager.LoadScene("1.Openning"); // Load your game over scene
+        SceneManager.LoadScene("1.Opening"); // Load your game over scene
     }
 }

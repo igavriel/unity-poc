@@ -58,25 +58,27 @@ public class WaterEnemy : MonoBehaviour
         }
         else if (collision.collider.CompareTag("Player"))
         {
-            PlayerLight pl = collision.collider.GetComponent<PlayerLight>();
-            StartCoroutine(DestroyCoroutine(pl));
+            PlayerLight playerLight = collision.collider.GetComponent<PlayerLight>();
+            StartCoroutine(HandleEnemyDestroy(playerLight));
         }
     }
 
-    private IEnumerator DestroyCoroutine(PlayerLight playerLight)
+    private IEnumerator HandleEnemyDestroy(PlayerLight playerLight)
     {
+        audioSource.Play();
         playerLight.DecreaseLight(enemyDecreaseAmount); // Adjust damage value as needed
         if (playerLight.GetCurrentLightRadius() <= 0f)
         {
             // Game over logic here
             Debug.Log("Game Over: Light extinguished.");
+            GameManager.Instance.GameOver("Light extinguished.");
         }
-        audioSource.Play();
-        gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
-        yield return new WaitForSeconds(audioSource.clip.length);
-        Destroy(gameObject);
-
-        yield return new WaitForSeconds(1f);
-        GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
+        else
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(audioSource.clip.length / 2);
+            GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
+            Destroy(gameObject);
+        }
     }
 }

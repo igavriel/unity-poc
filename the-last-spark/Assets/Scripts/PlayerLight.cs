@@ -16,12 +16,32 @@ public class PlayerLight : MonoBehaviour
     void Start()
     {
         lanternLight = GetComponentInChildren<Light2D>();
+        NewGame();
+    }
+
+    public void NewGame()
+    {
+        // Reset the flame and hit counts
+        flameCount = 0;
+        hitCount = 0;
     }
 
     // Returns the current light radius of the lantern.
     public float GetCurrentLightRadius()
     {
         return lanternLight.pointLightOuterRadius;
+    }
+
+    // Returns the current flame count.
+    public int GetFlameCount()
+    {
+        return flameCount;
+    }
+
+    // Returns the current hit count.
+    public int GetHitCount()
+    {
+        return hitCount;
     }
 
     // Upgrades the light radius of the lantern.
