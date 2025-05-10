@@ -64,7 +64,12 @@ public class EndlessTilemap : MonoBehaviour
                         tilePos.y * tileSize.y,
                         0
                     );
-                    GameObject tile = Instantiate(tilePrefab, worldPos, Quaternion.identity, transform);
+                    GameObject tile = Instantiate(
+                        tilePrefab,
+                        worldPos,
+                        Quaternion.identity,
+                        transform
+                    );
                     tiles[tilePos] = tile;
                 }
             }

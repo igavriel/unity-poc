@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;
+
     private Rigidbody2D rb;
     private Vector2 movement;
 

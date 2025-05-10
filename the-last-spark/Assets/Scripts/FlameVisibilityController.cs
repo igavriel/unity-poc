@@ -1,10 +1,10 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class FlameVisibilityController : MonoBehaviour
 {
     public Transform player;
-    public float lightTriggerRadius = 3f;
+    public float lightTriggerRadius = 3.0f;
 
     private bool isInLight = false;
     private ParticleSystem flameParticles;
@@ -12,6 +12,7 @@ public class FlameVisibilityController : MonoBehaviour
 
     void Start()
     {
+        // Find the player if not assigned
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -30,7 +31,7 @@ public class FlameVisibilityController : MonoBehaviour
             isInLight = currentlyInLight;
 
             if (isInLight)
-            {   // Always on when in light
+            { // Always on when in light
                 if (!flameParticles.isPlaying)
                     flameParticles.Play();
 
@@ -38,7 +39,7 @@ public class FlameVisibilityController : MonoBehaviour
                     StopCoroutine(flickerRoutine);
             }
             else
-            {   // Back to flicker logic
+            { // Back to flicker logic
                 flickerRoutine = StartCoroutine(RandomFlicker());
             }
         }
@@ -47,12 +48,12 @@ public class FlameVisibilityController : MonoBehaviour
     IEnumerator RandomFlicker()
     {
         while (!isInLight)
-        {   // Randomly show particles for a short time
+        { // Randomly show particles for a short time
             flameParticles.Play();
-            yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
+            yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
 
             flameParticles.Stop();
-            yield return new WaitForSeconds(Random.Range(2.0f, 4.0f));
+            yield return new WaitForSeconds(Random.Range(2.5f, 5.0f));
         }
     }
 }
