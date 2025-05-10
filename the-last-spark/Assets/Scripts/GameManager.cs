@@ -11,12 +11,15 @@ public class GameManager : MonoBehaviour
     public Vector2 worldMin = new Vector2(-25.0f, -25.0f); // bottom-left corner
     public Vector2 worldMax = new Vector2(25.0f, 25.0f); // top-right corner
     public Transform worldBoundsContainer;
+    public Transform stonesContainer;
     public Transform flamesContainer;
     public Transform enemiesContainer;
 
     [Header("Spawning")]
+    public GameObject stonesPrefab;
     public GameObject flamePrefab;
     public GameObject enemyPrefab;
+    public int stonesCount = 50;
     public int flameCount = 20;
     public int enemyCount = 5;
 
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
     {
         timer = gameDuration;
         CreateWorldBorders();
+        SpawnObjects(stonesPrefab, stonesCount, stonesContainer);
         SpawnObjects(flamePrefab, flameCount, flamesContainer);
         SpawnObjects(enemyPrefab, enemyCount, enemiesContainer);
     }

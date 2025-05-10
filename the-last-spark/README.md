@@ -19,3 +19,11 @@ This mini game was planned to introduce Shadow and Light game concept
   •	Player = Fireball with expanding Point Light 2D
   •	Collectables = Flames → collect all to win and increase the light
   •	Enemies = Hit by water balls reduces light. If light reaches 0 → you lose
+
+### Resources
+  * Sprites: Midjourney
+  * Vibe coding: Chat GPT
+  * Sound Track: Suno - Fantasy forest - https://suno.com/song/f079d071-aa8c-4592-a2dd-f75e2342ee89
+  * Sound effects: freesound.org
+    * Grabbing Flame - https://freesound.org/people/CheeseLovver21/sounds/772661/
+    * water on fire - https://freesound.org/people/Ekrcoaster/sounds/666289/
