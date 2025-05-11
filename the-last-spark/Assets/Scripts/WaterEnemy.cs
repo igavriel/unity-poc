@@ -27,7 +27,7 @@ public class WaterEnemy : MonoBehaviour
 
         PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
         normalSpeed = playerMovement.GetSpeed() + Random.Range(-0.5f, 0.5f);
-        chaseSpeed = playerMovement.GetSpeed() + Random.Range(0.1f, 1.0f);
+        chaseSpeed = normalSpeed + Random.Range(0.1f, 0.8f);
 
         audioSource = GetComponent<AudioSource>();
 

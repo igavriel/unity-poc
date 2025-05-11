@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         SpawnObjects(stonesPrefab, stonesCount, stonesContainer);
         SpawnObjects(flamePrefab, flameCount, flamesContainer);
         SpawnObjects(enemyPrefab, enemyCount, enemiesContainer);
+        StartCoroutine(LightDecayRoutine());
     }
 
     void Update()
@@ -169,8 +170,8 @@ public class GameManager : MonoBehaviour
         // Optional: Check win condition here (e.g., score == flameCount)
         if (flames >= flameCount)
         {
-            PromptText("You ignited all the flames!", 3f);
-            isGameActive = false;
+            GameOver("YOU WON!", 5f);
+            PromptText("You Win - All the flames were rescued!", 5f);
         }
     }
 
@@ -188,16 +189,31 @@ public class GameManager : MonoBehaviour
         promptText.enabled = false;
     }
 
-    public void GameOver(string reason)
+    public void GameOver(string reason, float delay = 5f)
     {
-        StartCoroutine(HandleGameOver("Game Over: " + reason));
+        StartCoroutine(HandleGameOver("Game Over: " + reason, delay));
     }
 
-    private IEnumerator HandleGameOver(string text)
+    private IEnumerator HandleGameOver(string text, float delay)
     {
-        PromptText(text, 5f);
+        PromptText(text, delay);
         player.GetComponentInChildren<SpriteRenderer>().enabled = false;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("1.Opening"); // Load your game over scene
+    }
+
+    private IEnumerator LightDecayRoutine()
+    {
+        while (isGameActive && playerLight != null)
+        {
+            yield return new WaitForSeconds(2f);
+            playerLight.DecreaseLight(0.1f);
+
+            if (playerLight.GetCurrentLightRadius() <= 0f)
+            {
+                GameOver("The spark has faded.");
+                yield break;
+            }
+        }
     }
 }
