@@ -99,7 +99,6 @@ public class GameManager : MonoBehaviour
     void SpawnObjects(GameObject prefab, int amount, Transform parent)
     {
         Debug.Log($"Spawning {amount} objects of type {prefab.name}.");
-
         for (int i = 0; i < amount; i++)
         {
             Vector2 spawnPos = new Vector2(
@@ -108,7 +107,7 @@ public class GameManager : MonoBehaviour
             );
             GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
             obj.transform.SetParent(parent);
-            Debug.Log($"Spawned {prefab.name} at {spawnPos}");
+            //Debug.Log($"Spawned {prefab.name} at {spawnPos}");
         }
     }
 
@@ -170,7 +169,7 @@ public class GameManager : MonoBehaviour
         // Optional: Check win condition here (e.g., score == flameCount)
         if (flames >= flameCount)
         {
-            GameOver("YOU WON!", 5f);
+            GameOver("YOU WON!");
             PromptText("You Win - All the flames were rescued!", 5f);
         }
     }
@@ -189,7 +188,7 @@ public class GameManager : MonoBehaviour
         promptText.enabled = false;
     }
 
-    public void GameOver(string reason, float delay = 5f)
+    public void GameOver(string reason, float delay = 3f)
     {
         StartCoroutine(HandleGameOver("Game Over: " + reason, delay));
     }
@@ -207,7 +206,7 @@ public class GameManager : MonoBehaviour
         while (isGameActive && playerLight != null)
         {
             yield return new WaitForSeconds(2f);
-            playerLight.DecreaseLight(0.1f);
+            playerLight.DecreaseLight(0.1f, false);
 
             if (playerLight.GetCurrentLightRadius() <= 0f)
             {

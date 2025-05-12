@@ -56,10 +56,12 @@ public class PlayerLight : MonoBehaviour
     }
 
     // Decreases the light radius of the lantern.
-    public void DecreaseLight(float amount)
+    public void DecreaseLight(float amount, bool isHit)
     {
-        // Increase the hit count and update the light radius.
-        hitCount++;
+        if (isHit)
+        { // Increase the hit count and update the light radius.
+            hitCount++;
+        }
         // Decrease the light radius and clamp it to a minimum value.
         lanternLight.pointLightOuterRadius = Mathf.Max(
             lanternLight.pointLightOuterRadius - amount,

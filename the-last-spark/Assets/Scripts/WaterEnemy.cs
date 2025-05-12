@@ -4,10 +4,11 @@ using UnityEngine;
 public class WaterEnemy : MonoBehaviour
 {
     public float enemyDecreaseAmount = 1.5f;
+    public float avoidDistance = 5.0f;
 
-    private float avoidDistance = 3.0f;
     private float normalSpeed = 1.0f;
     private float chaseSpeed = 1.5f;
+
     private Transform player;
     private Vector2 currentDirection;
     private AudioSource audioSource;
@@ -26,8 +27,8 @@ public class WaterEnemy : MonoBehaviour
             avoidDistance = 5.0f;
 
         PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-        normalSpeed = playerMovement.GetSpeed() + Random.Range(-0.5f, 0.5f);
-        chaseSpeed = normalSpeed + Random.Range(0.1f, 0.8f);
+        normalSpeed = playerMovement.GetSpeed() + Random.Range(-0.5f, 0.1f);
+        chaseSpeed = normalSpeed + Random.Range(0.1f, 0.5f);
 
         audioSource = GetComponent<AudioSource>();
 
@@ -56,7 +57,12 @@ public class WaterEnemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Wall"))
+        if (collision.collider.CompareTag("Player"))
+        {
+            StartCoroutine(HandleEnemyDestroy());
+        }
+        //if (collision.collider.CompareTag("Wall"))
+        else
         {
             if (collision.contacts.Length > 0)
             {
@@ -68,16 +74,12 @@ public class WaterEnemy : MonoBehaviour
                 currentDirection = Random.insideUnitCircle.normalized; // Fallback
             }
         }
-        else if (collision.collider.CompareTag("Player"))
-        {
-            StartCoroutine(HandleEnemyDestroy());
-        }
     }
 
     private IEnumerator HandleEnemyDestroy()
     {
         audioSource.Play();
-        playerLight.DecreaseLight(enemyDecreaseAmount); // Adjust damage value as needed
+        playerLight.DecreaseLight(enemyDecreaseAmount, true); // Adjust damage value as needed
         if (playerLight.GetCurrentLightRadius() <= 0f)
         {
             // Game over logic here
