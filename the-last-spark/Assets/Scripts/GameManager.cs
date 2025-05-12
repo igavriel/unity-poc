@@ -98,17 +98,32 @@ public class GameManager : MonoBehaviour
 
     void SpawnObjects(GameObject prefab, int amount, Transform parent)
     {
+        float checkRadius = 0.5f; // Adjust based on object size
+        int maxAttempts = 100;
         Debug.Log($"Spawning {amount} objects of type {prefab.name}.");
-        for (int i = 0; i < amount; i++)
+
+        int spawned = 0;
+        int attempts = 0;
+        while (spawned < amount && attempts < maxAttempts * amount)
         {
             Vector2 spawnPos = new Vector2(
                 Random.Range(worldMin.x, worldMax.x),
                 Random.Range(worldMin.y, worldMax.y)
             );
-            GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
-            obj.transform.SetParent(parent);
-            //Debug.Log($"Spawned {prefab.name} at {spawnPos}");
+            // Check if area is already occupied
+            Collider2D hit = Physics2D.OverlapCircle(spawnPos, checkRadius);
+
+            if (hit == null)
+            {
+                GameObject obj = Instantiate(prefab, spawnPos, Quaternion.identity);
+                obj.transform.SetParent(parent);
+                //Debug.Log($"Spawned {prefab.name} at {spawnPos}");
+                spawned++;
+            }
+            attempts++;
         }
+
+        Debug.Log($"Spawned {spawned} objects out of requested {amount} after {attempts} attempts.");
     }
 
     public void SpawnEnemy()
