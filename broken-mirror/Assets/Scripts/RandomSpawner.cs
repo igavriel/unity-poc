@@ -87,7 +87,7 @@ public class RandomSpawner : MonoBehaviour
         // Randomly pick 3 unique indices out of 5
         List<int> indices = new List<int> { 0, 1, 2, 3, 4 };
         List<int> chosen = new List<int>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             int randIndex = Random.Range(0, indices.Count);
             chosen.Add(indices[randIndex]);

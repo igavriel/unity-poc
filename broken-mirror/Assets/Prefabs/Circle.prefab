@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193e27f6c3b13400aa2de4f61289b373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 3
 --- !u!114 &-2529389942018482802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,8 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0a8a34598834d47adedb8f8d11b27b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragSpeed: 10
-  recoverSpeed: 0.3
+  dragSpeed: 5
+  recoverSpeed: 0.1
   targetY: 0
 --- !u!58 &8904115798721920244
 CircleCollider2D:
