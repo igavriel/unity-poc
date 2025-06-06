@@ -55,3 +55,15 @@ You play as **The Last Spark** — a flickering fireball born from the embers of
 This mini-game is a **proof of concept** (POC) designed to explore light/dark gameplay and mood. Built solo over a short sprint.
 
 > **Feedback, forks and flames welcome!**
+
+---
+
+## 📌 Credits
+
+Created by [Ilan Gavriel](https://igavriel.github.io/portfolio/) as a POC game project using Unity's 2D system and physics.
+
+---
+
+## 🧭 License
+
+This project is open-source and licensed under the [MIT License](LICENSE).
