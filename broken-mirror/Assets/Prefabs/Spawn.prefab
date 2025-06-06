@@ -101,11 +101,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97afcb0395900418eaa835c929a03de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabs:
+  trianglesPrefabs:
   - {fileID: 3275717720776757333, guid: a8a3f29666e4441a0b44097ea5c0ea61, type: 3}
   - {fileID: 3275717720776757333, guid: 21ff784b2410e4843bf5920df39a2d35, type: 3}
+  cubePrefab: {fileID: 1275009758272779662, guid: 1fd1316a313b847bcb15e5851ba1e38e, type: 3}
   minSpawnDelay: 1
   maxSpawnDelay: 3
+  slotWidth: 0.5
 --- !u!61 &933980578892311450
 BoxCollider2D:
   m_ObjectHideFlags: 0
