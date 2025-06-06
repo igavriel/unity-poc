@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3674602534028399287}
   - component: {fileID: 1155744607956313628}
   - component: {fileID: -2529389942018482802}
-  - component: {fileID: 1802802777487127991}
   - component: {fileID: 8904115798721920244}
   - component: {fileID: 268044888959674959}
   m_Layer: 0
@@ -104,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 193e27f6c3b13400aa2de4f61289b373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 4
   moveBoundary: 3
 --- !u!114 &-2529389942018482802
 MonoBehaviour:
@@ -121,19 +120,6 @@ MonoBehaviour:
   dragSpeed: 1
   recoverSpeed: 1
   targetY: 0
---- !u!114 &1802802777487127991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893246101905739678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de329e7cfe4374eb7912befafd6847f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boundsArea: {fileID: 0}
 --- !u!58 &8904115798721920244
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -196,4 +182,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 5
+  m_Constraints: 4

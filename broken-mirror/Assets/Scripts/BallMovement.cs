@@ -3,13 +3,16 @@ using UnityEngine;
 public class BallMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float moveBoundary = 3f;
 
+    private Rigidbody2D rb;
     private Vector2 touchStart;
     private Vector2 touchEnd;
 
     void Update()
     {
+        rb = GetComponent<Rigidbody2D>();
+        Util.AssertObjectNotNull(rb, "Rigidbody2D component not found on the GameObject.");
+
         HandleKeyboardInput();
         HandleSwipeInput();
     }
@@ -18,6 +21,11 @@ public class BallMovement : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal"); // A/D or arrow keys
         MoveBall(moveX);
+    }
+
+    void MoveBall(float direction)
+    {
+        rb.linearVelocity = new Vector2(direction * moveSpeed, rb.linearVelocity.y);
     }
 
     void HandleSwipeInput()
@@ -66,12 +74,5 @@ public class BallMovement : MonoBehaviour
                 MoveBall(direction);
             }
         }
-    }
-
-    void MoveBall(float direction)
-    {
-        Vector3 newPos = transform.position + Vector3.right * direction * moveSpeed * Time.deltaTime;
-        newPos.x = Mathf.Clamp(newPos.x, -moveBoundary, moveBoundary);
-        transform.position = newPos;
     }
 }
