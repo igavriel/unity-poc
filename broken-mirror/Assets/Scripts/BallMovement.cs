@@ -11,7 +11,7 @@ public class BallMovement : MonoBehaviour
     void Update()
     {
         rb = GetComponent<Rigidbody2D>();
-        Util.AssertObjectNotNull(rb, "Rigidbody2D component not found on the GameObject.");
+        Utils.AssertObjectNotNull(rb, "Rigidbody2D component not found on the GameObject.");
 
         HandleKeyboardInput();
         HandleSwipeInput();

@@ -16,7 +16,7 @@ public class RandomSpawner : MonoBehaviour
     void Start()
     {
         spawnArea = GetComponent<BoxCollider2D>();
-        Util.AssertObjectNotNull(spawnArea, "RandomSpawner requires a BoxCollider2D component!");
+        Utils.AssertObjectNotNull(spawnArea, "RandomSpawner requires a BoxCollider2D component!");
 
         StartCoroutine(SpawnRoutine());
     }

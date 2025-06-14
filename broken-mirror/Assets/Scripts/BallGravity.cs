@@ -46,7 +46,7 @@ public class BallGravity : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("Game Over!");
+            GameManager.Instance.GameOver(); // Call GameManager's GameOver method
         }
     }
 

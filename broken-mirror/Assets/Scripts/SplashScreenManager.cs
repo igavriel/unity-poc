@@ -9,6 +9,7 @@ public class SplashScreenManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             SceneManager.LoadScene("1-Main");
+            GameManager.Instance.StartGame(); // Ensure the game starts when the main scene is loaded
         }
     }
 }

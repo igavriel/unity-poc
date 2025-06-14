@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class Util
+public static class Utils
 {
     public static void AssertObjectNotNull(Object obj, string message)
     {
