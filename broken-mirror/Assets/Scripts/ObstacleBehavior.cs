@@ -10,6 +10,11 @@ public class ObstacleBehavior : MonoBehaviour, IObstacle
         {
             Destroy(gameObject);
         }
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
         return true; // Indicating a collision has occurred
     }
 }

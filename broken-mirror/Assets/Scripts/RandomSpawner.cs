@@ -61,14 +61,17 @@ public class RandomSpawner : MonoBehaviour
         GameObject spawnedObject = Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
 
         // Random scale
-        float randomScale = Random.Range(0.1f, 0.5f);
-        spawnedObject.transform.localScale = new Vector3(randomScale, randomScale, 1f);
+        float randomScale = Random.Range(0.3f, 0.6f);
+        spawnedObject.transform.localScale = new Vector3(randomScale, randomScale, 0f);
 
-        // Random color
-        SpriteRenderer sr = spawnedObject.GetComponent<SpriteRenderer>();
-        if (sr != null)
+        foreach (Transform child in spawnedObject.transform)
         {
-            sr.color = new Color(Random.value, Random.value, Random.value);
+            // Random color
+            SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.color = new Color(Random.value, Random.value, Random.value);
+            }
         }
 
         spawnedObject.transform.rotation = Quaternion.Euler(0, 0, 180f);
