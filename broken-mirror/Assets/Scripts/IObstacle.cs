@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public interface IObstacle
 {
-    bool CollisionDetected();
+    public bool CollisionDetected(Collision2D collision);
 }

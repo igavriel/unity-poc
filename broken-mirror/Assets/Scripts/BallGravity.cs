@@ -42,19 +42,27 @@ public class BallGravity : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            Debug.Log("Game Over!");
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        IObstacle obstecale = collision.gameObject.GetComponent<IObstacle>();
-        if (obstecale != null) // Check if the collided object implements IObstacle
+        IObstacle obstacle = collision.gameObject.GetComponent<IObstacle>();
+        if (obstacle != null) // Check if the collided object implements IObstacle
         {
-            isDragging = obstecale.CollisionDetected(); // Call the interface method
+            isDragging = obstacle.CollisionDetected(collision); // Call the interface method
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        IObstacle obstecale = collision.gameObject.GetComponent<IObstacle>();
-        if (obstecale != null) // Check if the collided object implements IObstacle
+        IObstacle obstacle = collision.gameObject.GetComponent<IObstacle>();
+        if (obstacle != null) // Check if the collided object implements IObstacle
         {
             isDragging = false;
         }
