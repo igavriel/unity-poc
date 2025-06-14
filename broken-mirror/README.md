@@ -1,25 +1,25 @@
 # 🪞 Broken Mirror
 
-> Two sides. One fate. Control both. Survive together.
+> Two sides. One fate. Control both missiles. Survive the flow.
 
-**Broken Mirror** is a dual-control endless runner game genre made in Unity. The player controls two balls on a split-screen, avoiding falling obstacles while managing coordination and survival. The game is a POC (Proof of Concept) built using basic Unity 2D objects and systems.
+**Broken Mirror** is a dual-control endless runner game made in Unity. The player controls two missile-like avatars built from basic Unity objects, racing over a mirrored river landscape. The screen is split in two — like a broken mirror — and both sides reflect a parallel challenge. The game is a POC (Proof of Concept) built using Unity's 2D system to explore synchronized gameplay and spatial awareness.
 
 ---
 
 ## 🎮 Gameplay
 
-- The screen is split vertically into two halves.
-- The player controls **two balls simultaneously**, one on each side.
+- The screen is split vertically into two halves — a "broken mirror" over an endless river.
+- The player controls **two missiles simultaneously**, one on each side.
 - **Falling triangles** and **lines of cubes** appear from the top of the screen.
-- If either ball touches an obstacle, it begins to get dragged down.
-- If a ball reaches the **bottom** of the screen, it's **Game Over**.
+- If either player touches an obstacle, it begins to get dragged down.
+- If a player reaches the **bottom** of the screen, it's **Game Over**.
 - Goal: **Survive as long as possible**.
 
 ---
 
 ## 🛠 Features
 
-- 2D physics-based ball movement
+- 2D physics-based player movement
 - Touch + keyboard control support (mobile & WebGL)
 - Procedural spawning of triangle obstacles and cube lines
 - Dynamic obstacle behavior (random color, size, drag mechanics)
@@ -33,7 +33,7 @@
 1. Open the project in **Unity 2022+**
 2. Open the `Main` scene
 3. Press ▶️ Play in the Editor
-4. Use **A/D or Arrow Keys** or **Swipe Left/Right** to control each ball
+4. Use **A/D or Arrow Keys** or **Swipe Left/Right** to control each missile player
 
 ---
 
