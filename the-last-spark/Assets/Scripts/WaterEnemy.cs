@@ -20,12 +20,15 @@ public class WaterEnemy : MonoBehaviour
     private Vector2 currentDirection;
     private AudioSource audioSource;
     private PlayerLight playerLight;
+    private GameManager gameManager;
 
     void Start()
     {
         // Find the player if not assigned
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         playerLight = player.GetComponent<PlayerLight>();
         avoidDistance = playerLight.GetCurrentLightRadius() - 0.5f;
@@ -120,7 +123,7 @@ public class WaterEnemy : MonoBehaviour
         {
             // Game over logic here
             Debug.Log("Game Over: Light extinguished.");
-            GameManager.Instance.GameOver("Light extinguished.");
+            gameManager.GameOver("Light extinguished.");
         }
         else
         {
@@ -130,7 +133,7 @@ public class WaterEnemy : MonoBehaviour
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 
             yield return new WaitForSeconds(audioSource.clip.length / 2);
-            GameManager.Instance.SpawnEnemy(); // Call the spawn method from GameManager
+            gameManager.SpawnEnemy(); // Call the spawn method from GameManager
             Destroy(gameObject);
         }
     }

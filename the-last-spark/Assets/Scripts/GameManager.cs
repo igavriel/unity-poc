@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
     [Header("Border")]
     public Sprite wallSprite;
     public Vector2 worldMin = new Vector2(-25.0f, -25.0f); // bottom-left corner
@@ -20,16 +20,19 @@ public class GameManager : MonoBehaviour
     public GameObject stonesPrefab;
     public GameObject flamePrefab;
     public GameObject enemyPrefab;
-    public int stonesCount = 50;
-    public int flameCount = 20;
-    public int enemyCount = 5;
+    public int totalCreatedStones = 50;
+    public int totalCreatedFlames = 20;
+    public int totalCreatedEnemies = 5;
 
     [Header("Game Timer")]
-    [SerializeField] private float gameDuration = 120f; // 2 minutes
+    [SerializeField]
+    private float gameDuration = 120f; // 2 minutes
 
-    [SerializeField] private float timeRemaining;
+    [SerializeField]
+    private float timeRemaining;
 
-    [SerializeField] private GameObject player;
+    [SerializeField]
+    private GameObject player;
     private PlayerLight playerLight;
 
     [Header("UI")]
@@ -39,14 +42,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text promptText;
 
     private bool isGameActive = false;
-
-    void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
 
     void Start()
     {
@@ -64,9 +59,9 @@ public class GameManager : MonoBehaviour
 
         UpdateCounterDisplay();
         CreateWorldBorders();
-        SpawnObjects(stonesPrefab, stonesCount, stonesContainer);
-        SpawnObjects(flamePrefab, flameCount, flamesContainer);
-        SpawnObjects(enemyPrefab, enemyCount, enemiesContainer);
+        SpawnObjects(stonesPrefab, totalCreatedStones, stonesContainer);
+        SpawnObjects(flamePrefab, totalCreatedFlames, flamesContainer);
+        StartCoroutine(StartSpawnEnemiesRoutine());
         StartCoroutine(LightDecayRoutine());
     }
 
@@ -86,6 +81,18 @@ public class GameManager : MonoBehaviour
                 GameOver("Time's up!");
             }
         }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+            {
+                BackToMainMenu();
+            }
+        }
+    }
+
+    void BackToMainMenu()
+    {
+        SceneManager.LoadScene("1.Opening"); // Load your main menu scene
     }
 
     void UpdateCounterDisplay()
@@ -107,8 +114,8 @@ public class GameManager : MonoBehaviour
         while (spawned < amount && attempts < maxAttempts * amount)
         {
             Vector2 spawnPos = new Vector2(
-                Random.Range(worldMin.x, worldMax.x),
-                Random.Range(worldMin.y, worldMax.y)
+                UnityEngine.Random.Range(worldMin.x, worldMax.x),
+                UnityEngine.Random.Range(worldMin.y, worldMax.y)
             );
             // Check if area is already occupied
             Collider2D hit = Physics2D.OverlapCircle(spawnPos, checkRadius);
@@ -178,42 +185,65 @@ public class GameManager : MonoBehaviour
     {
         int flames = playerLight.GetFlameCount();
         int hits = playerLight.GetHitCount();
-        flameText.text = $"Flames: {flames}/{flameCount}";
+        flameText.text = $"Flames: {flames}/{totalCreatedFlames}";
         hitText.text = $"Hits: {hits}";
 
         // Optional: Check win condition here (e.g., score == flameCount)
-        if (flames >= flameCount)
+        if (flames >= totalCreatedFlames)
         {
-            GameOver("YOU WON!");
-            PromptText("You Win - All the flames were rescued!", 5f);
+            GameOver("YOU WON! - All the flames were rescued!");
         }
     }
 
-    public void PromptText(string text, float duration)
-    {
-        StartCoroutine(HandlePrompt(text, duration));
-    }
-
-    private IEnumerator HandlePrompt(string text, float duration)
-    {
-        Debug.Log(text);
-        promptText.enabled = true;
-        promptText.text = text;
-        yield return new WaitForSeconds(duration);
-        promptText.enabled = false;
-    }
-
-    public void GameOver(string reason, float delay = 3f)
+    public void GameOver(string reason, float delay = 30.0f)
     {
         StartCoroutine(HandleGameOver("Game Over: " + reason, delay));
     }
 
     private IEnumerator HandleGameOver(string text, float delay)
     {
-        PromptText(text, delay);
+        isGameActive = false; // Stop the game loop
+        player.GetComponent<Collider2D>().enabled = false; // Disable player collider
         player.GetComponentInChildren<SpriteRenderer>().enabled = false;
+
+        promptText.enabled = true;
+        promptText.text = text + "\n\n" + HandleScore();
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("1.Opening"); // Load your game over scene
+        BackToMainMenu();
+    }
+
+    string HandleScore()
+    {
+        int flamesScore = playerLight.GetFlameCount() * 10;
+        int hitsDamage = playerLight.GetHitCount() * 5;
+        int timeBonus = 0;
+        int score = flamesScore - hitsDamage;
+        if (playerLight.GetFlameCount() == totalCreatedFlames)
+        {
+            timeBonus = timeRemaining > 0 ? Mathf.FloorToInt(timeRemaining) : 0;
+            score += timeBonus;
+        }
+        PlayerPrefs.SetInt("Score", score);
+        // set high score if this is a new high score
+        Debug.Log("Current Score: " + score);
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if (score > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            highScore = score;
+            Debug.Log("New High Score: " + score);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"Flames: {playerLight.GetFlameCount().ToString("D3")} * 10 =  {flamesScore}");
+        sb.AppendLine($"Hits:  -{playerLight.GetHitCount().ToString("D3")} *  5 = -{hitsDamage}");
+        if (timeBonus > 0)
+            sb.AppendLine($"Bonus : {timeBonus}");
+        sb.AppendLine($"------------------------------");
+        sb.AppendLine($"Score : {score}  /  High Score: {highScore}");
+        sb.AppendLine();
+        sb.AppendLine($"Press Space to return to the main menu.");
+        return sb.ToString();
     }
 
     private IEnumerator LightDecayRoutine()
@@ -229,5 +259,11 @@ public class GameManager : MonoBehaviour
                 yield break;
             }
         }
+    }
+
+    private IEnumerator StartSpawnEnemiesRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        SpawnObjects(enemyPrefab, totalCreatedEnemies, enemiesContainer);
     }
 }

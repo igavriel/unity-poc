@@ -769,10 +769,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 36c5745d-a78a-4bc9-a97e-e536c29e5c16
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Broken Mirrror
+  projectName: broken-mirror
   organizationId: igavriel
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
